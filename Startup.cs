@@ -19,7 +19,7 @@ namespace ServiceB
 
             app.Run(async context =>
             {
-                await context.Response.WriteAsync("Hello from service B running on " + Environment.MachineName);
+                await context.Response.WriteAsync("HELLO from NEW service B running on " + Environment.MachineName);
             });
         }
     }
