@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.Loader;
+using System.IO;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 
@@ -10,40 +10,15 @@ namespace ServiceB
     {
         public static void Main(string[] args)
         {
-            var done = new ManualResetEventSlim(false);
-            using (var cts = new CancellationTokenSource())
-            {
-                Action shutdown = () =>
-                {
-                    if (!cts.IsCancellationRequested)
-                    {
-                        Console.WriteLine("Application is shutting down...");
-                        cts.Cancel();
-                    }
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseUrls("http://*:80")
+                .UseStartup<Startup>()
+                .Build();
 
-                    done.Wait();
-                };
-
-                var assemblyLoadContext = AssemblyLoadContext.GetLoadContext(typeof(Program).GetTypeInfo().Assembly);
-                assemblyLoadContext.Unloading += context => shutdown();
-
-                Console.CancelKeyPress += (sender, eventArgs) =>
-                {
-                    shutdown();
-                    eventArgs.Cancel = true;
-                };
-
-                new WebHostBuilder()
-                    .UseKestrel(options => {
-                        options.ShutdownTimeout = TimeSpan.FromSeconds(10);
-                    })
-                    .UseStartup<Startup>()
-                    .UseUrls("http://*:80")
-                    .Build()
-                    .Run(cts.Token);
-
-                done.Set();
-            }
+            host.Run();
         }
     }
 }
