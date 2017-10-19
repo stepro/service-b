@@ -1,2 +1,5 @@
+.git
+.gitignore
 bin
+chart
 obj

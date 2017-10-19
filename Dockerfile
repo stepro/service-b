@@ -3,6 +3,7 @@ EXPOSE 80
 WORKDIR /app
 
 FROM microsoft/aspnetcore-build:2 AS develop
+EXPOSE 80
 WORKDIR /src
 COPY *.csproj .
 RUN dotnet restore

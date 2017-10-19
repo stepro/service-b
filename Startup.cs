@@ -24,7 +24,7 @@ namespace ServiceB
 
             app.Run(async context =>
             {
-                await context.Response.WriteAsync("Hello from service B container " + Environment.MachineName);
+                await context.Response.WriteAsync("Hello from service B container " + Environment.MachineName + Environment.NewLine);
             });
         }
     }
