@@ -27,19 +27,19 @@ spec:
         - name: POD_BASELINE_NAMESPACE
           value: {{ .Values.baseline }}
       containers:
-        - name: mindaro-envoy
-          image: stephpr/mindaro-envoy
+        - name: mindaro-discovery
+          image: stephpr/mindaro-discovery
           imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1337
           env:
           - name: POD_NAME
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-        - name: mindaro-discovery
-          image: stephpr/mindaro-discovery
+        - name: mindaro-envoy
+          image: stephpr/mindaro-envoy
           imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1337
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
