@@ -16,16 +16,16 @@ spec:
         release: {{ .Release.Name }}
     spec:
       initContainers:
-      - name: mindaro-init
-        image: stephpr/mindaro-init
-        imagePullPolicy: Always
-        securityContext:
-          capabilities:
-            add:
-            - "NET_ADMIN"
-        env:
-        - name: POD_BASELINE_NAMESPACE
-          value: {{ .Values.baseline }}
+        - name: mindaro-init
+          image: stephpr/mindaro-init
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+              - "NET_ADMIN"
+          env:
+          - name: POD_BASELINE_NAMESPACE
+            value: {{ .Values.baseline }}
       containers:
         - name: mindaro-discovery
           image: stephpr/mindaro-discovery
