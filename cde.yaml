@@ -10,16 +10,16 @@ properties:
     # target: develop
   helm:
     # chart: chart # default
+    mappings:
+      # What value should cde set to true to enable development mode?
+      development: development.enabled # default
+      # When running in an isolated namespace, what value should cde set to the baseline namespace?
+      baseline: development.baseline # default
+      # What values should cde set to the private built image repository and tag?
+      image:        
+        repository: image.repository # default
+        tag: image.tag # default
+      # What value should cde set to an expansion of chart-scoped values from the secret store?
+      secrets: secrets # default
     values:
-      # These are all defaults
-      # image:
-      #   repository: $(build.repository)
-      #   tag: $(build.tag)
-      # development:
-      #   enabled: true
-      # For each env.chart.a.b.c, configuration a.b.c is injected by default, e.g.:
-      # references:
-      #   redis:
-      #     host: $(env.service-a.references.redis.host)
-      #     port: $(env.service-a.references.redis.port)
-      #     key: $(env.service-a.references.redis.key)
+      # What additional values should be overridden from values.yaml?
