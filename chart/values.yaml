@@ -5,7 +5,10 @@ replicaCount: 1
 image:
   repository: stephpr/service-b
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
+development:
+  enabled: false
+  command: ["dotnet", "watch", "run"]
 service:
   name: service-b
   type: ClusterIP

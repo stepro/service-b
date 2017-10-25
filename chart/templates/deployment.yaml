@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "chart.name" . }}
+  name: {{ template "chart.fullname" . }}
   labels:
     app: {{ template "chart.name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -14,37 +14,51 @@ spec:
       labels:
         app: {{ template "chart.name" . }}
         release: {{ .Release.Name }}
+        {{- if .Values.development.enabled }}
+        mindaro.io/target-container: {{ .Chart.Name }}
+        {{- if .Values.development.publicPort }}
+        mindaro.io/public-port: {{ .Values.development.publicPort }}
+        {{- end }}
+        {{- end }}
+      annotations:
+        {{- if .Values.development.syncTarget }}
+        mindaro.io/sync-target: {{ .Values.development.syncTarget }}
+        {{- end }}
     spec:
+      volumes:
+        {{ template "mindaro.pod.volumes" . }}
       initContainers:
-        - name: mindaro-init
-          image: stephpr/mindaro-init
-          imagePullPolicy: Always
-          securityContext:
-            capabilities:
-              add:
-              - "NET_ADMIN"
-          env:
-          - name: POD_BASELINE_NAMESPACE
-            value: {{ .Values.baseline }}
+        {{ template "mindaro.pod.initcontainers" . }}
       containers:
-        - name: mindaro-discovery
-          image: stephpr/mindaro-discovery
-          imagePullPolicy: Always
-          env:
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-        - name: mindaro-envoy
-          image: stephpr/mindaro-envoy
-          imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1337
+        {{ template "mindaro.pod.containers" . }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
+            {{- if and .Values.development.enabled .Values.development.debugPort }}
+            - containerPort: {{ .Values.development.debugPort }}
+            {{- end }}
+          env:
+            {{- $root := . }}
+            {{- range $ref, $values := .Values.references }}
+            {{- range $key, $value := $values }}
+            - name: {{ $ref | upper }}_{{ $key | upper }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "chart.name" $root }}-{{ $ref }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+          {{- if .Values.development.enabled }}
+          {{- if .Values.development.command }}
+          command: {{ toJson .Values.development.command }}
+          {{- end }}
+          {{- if .Values.development.args }}
+          args: {{ toJson .Values.development.args }}
+          {{- end }}
+          {{- end }}
+          {{- if not .Values.development.enabled }}
           livenessProbe:
             httpGet:
               path: /
@@ -53,6 +67,7 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.service.internalPort }}
+          {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}

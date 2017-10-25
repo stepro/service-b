@@ -1,0 +1,12 @@
+{{- $root := . }}
+{{- range $name, $values := .Values.references }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ template "chart.name" $root }}-{{ $name }}
+data:
+  {{- range $key, $value := $values }}
+  {{ $key }}: {{ $value | b64enc }}
+  {{- end }}
+---
+{{- end }}

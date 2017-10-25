@@ -1,0 +1,25 @@
+version: v1
+properties:
+  build:
+    # args:
+    #   arg1: value1
+    context: . # default
+    dockerfile: Dockerfile # default
+    # labels:
+    #   label1: value1
+    # target: develop
+  helm:
+    # chart: chart # default
+    values:
+      # These are all defaults
+      # image:
+      #   repository: $(build.repository)
+      #   tag: $(build.tag)
+      # development:
+      #   enabled: true
+      # For each env.chart.a.b.c, configuration a.b.c is injected by default, e.g.:
+      # references:
+      #   redis:
+      #     host: $(env.service-a.references.redis.host)
+      #     port: $(env.service-a.references.redis.port)
+      #     key: $(env.service-a.references.redis.key)
