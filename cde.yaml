@@ -16,7 +16,7 @@ properties:
       # When running in an isolated namespace, what value should cde set to the baseline namespace?
       baseline: development.baseline # default
       # What values should cde set to the private built image repository and tag?
-      image:        
+      image:
         repository: image.repository # default
         tag: image.tag # default
       # What value should cde set to an expansion of chart-scoped values from the secret store?
