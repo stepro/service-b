@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := .Values.service.name -}}
+{{- $serviceName := include "chart.fullname" . -}}
 {{- $servicePort := .Values.service.externalPort -}}
 apiVersion: extensions/v1beta1
 kind: Ingress

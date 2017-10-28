@@ -6,9 +6,6 @@ image:
   repository: stephpr/service-b
   tag: latest
   pullPolicy: IfNotPresent
-development:
-  enabled: false
-  command: ["dotnet", "watch", "run"]
 service:
   name: service-b
   type: ClusterIP
@@ -38,3 +35,16 @@ resources: {}
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
+mindaro: # will be auto-injected based on information in mindaro.yaml and current context
+  baseline: # set for isolated namespaces that have a baseline namespace
+  clientID: STEPHPR-MAC
+  build:
+    args:
+    labels:
+  entrypoint: ["dotnet", "watch", "run"]
+  command:
+  httpPorts:
+  - 80
+  syncTarget:
+  keepHealthChecks: false
+  terminateGracefully: false

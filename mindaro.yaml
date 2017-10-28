@@ -1,0 +1,37 @@
+version: v1
+properties:
+  build:
+    # args:
+    #   arg1: value1
+    context: . # default
+    dockerfile: Dockerfile # default
+    # labels:
+    #   label1: value1
+    # target: develop
+  # entrypoint: # default is the default entrypoint
+  command: ["dotnet", "watch", "run"] # default is the default command
+  # httpPorts: [80] # default is whatever was EXPOSEd in Dockerfile
+  # keepHealthChecks: false # default, typically disabled for development
+  # terminateGracefully: false # default, typically just kill it during development
+  # syncTarget: # default is automatically determined
+  helm:
+    # Which helm chart should be installed?
+    chart: chart # default
+    # What release name should be used?
+    release: dev # default
+    # What values files shoud be processed beyond values.yaml?
+    # values:
+    # - values.dev.yaml
+    # How should the development context be mapped to chart values?
+    contextMap:
+      # What values specify the image repository and tag?
+      image:
+        repository: image.repository # default, set to "node.local/namespace/chart-name"
+        tag: image.tag # default, set to a unique session ID, e.g. f25de591b1a9
+        pullPolicy: image.pullPolicy # default, set to "Never" since image is local
+      replicas: replicaCount # default, set to 0 initially, then to actual value
+      secrets: secrets # default, will provide any stored secret object as values
+  # How should we respond to local file changes?
+  watch:
+  - pattern: "*.*proj":
+    action: rebuild # default is "sync", allowed to be "ignore", "sync" or "rebuild"
