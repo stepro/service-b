@@ -42,8 +42,8 @@ mindaro: # will be auto-injected based on information in mindaro.yaml and curren
   build:
     args:
     labels:
-  entrypoint: ["dotnet", "watch", "run"]
-  command:
+  entrypoint:
+  command: ["dotnet", "watch", "run"]
   httpPorts:
   - 80
   syncTarget:

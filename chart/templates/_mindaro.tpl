@@ -127,7 +127,7 @@ Inject the Mindaro container logic.
           {{- if .Values.mindaro.entrypoint }}
           command:  {{ toJson .Values.mindaro.entrypoint }}
           {{- end }}
-          {{- if .Values.mindaro.args }}
+          {{- if .Values.mindaro.command }}
           args:  {{ toJson .Values.mindaro.command }}
           {{- end }}
 {{- end -}}
