@@ -35,10 +35,12 @@ properties:
     wait: false # default, maps to the --wait option on helm install
   # How should we respond to local file changes?
   # Rules are processed in reverse order of specification, so
-  # they should be defined from most general to most specific
+  # they should be defined from most general to most specific.
+  # Dockerfile and ignore file changes always trigger "rebuild".
+  # Also changes to the chart folder always trigger "reinstall".
   watch:
   - pattern: "*.*proj"
-    action: rebuild # default is "sync", allowed to be "ignore", "sync" or "rebuild"
+    action: rebuild # default is "sync", allowed to be "ignore", "sync", "rebuild", "reinstall"
 # Additional named configurations that override properties above
 configurations:
   debug: # Applied if you call "mindaro -c debug up"
