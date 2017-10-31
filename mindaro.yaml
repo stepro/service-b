@@ -10,28 +10,37 @@ properties:
     # target: develop
   # entrypoint: # default is the default entrypoint
   command: ["dotnet", "watch", "run"] # default is the default command
-  # httpPorts: [80] # default is whatever was EXPOSEd in Dockerfile
+  # nonHttpPorts: # default is none, tells Envoy to not proxy defined ports
   # keepHealthChecks: false # default, typically disabled for development
   # terminateGracefully: false # default, typically just kill it during development
   # syncTarget: # default is automatically determined
   helm:
     # Which helm chart should be installed?
     chart: chart # default
-    # What release name should be used?
-    release: dev # default
     # What values files shoud be processed beyond values.yaml?
     # values:
     # - values.dev.yaml
-    # How should the development context be mapped to chart values?
+    # What additional inline values should be supplied?
+    # set:
+    #   foo: bar
+    # How should development context be mapped to chart values?
     contextMap:
       # What values specify the image repository and tag?
       image:
         repository: image.repository # default, set to "node.local/namespace/chart-name"
         tag: image.tag # default, set to a unique session ID, e.g. f25de591b1a9
-        pullPolicy: image.pullPolicy # default, set to "Never" since image is local
+        pullPolicy: image.pullPolicy # default, set to "Never" since image will be local
       replicas: replicaCount # default, set to 0 initially, then to actual value
-      secrets: secrets # default, will provide any stored secret object as values
+      secrets: secrets # default, will provide any stored secrets as values
+    wait: false # default, maps to the --wait option on helm install
   # How should we respond to local file changes?
+  # Rules are processed in reverse order of specification, so
+  # they should be defined from most general to most specific
   watch:
-  - pattern: "*.*proj":
+  - pattern: "*.*proj"
     action: rebuild # default is "sync", allowed to be "ignore", "sync" or "rebuild"
+# Additional named configurations that override properties above
+configurations:
+  debug: # Applied if you call "mindaro -c debug up"
+  debug.vs: # Applied if you call "mindaro -c debug.vs up", also applies "debug" config
+  debug.vs.code: # Applied if you call "mindaro -c debug.vs.code up", also applies "debug.vs", "debug" configs

@@ -41,7 +41,7 @@ spec:
             {{- end }}
             {{- end }}
           # Eventually auto-removed
-          {{- if or (not .Values.mindaro) .Values.mindaro.keepHealthChecks }}
+          {{- if .Values.mindaro.keepHealthChecks }}
           livenessProbe:
             httpGet:
               path: /

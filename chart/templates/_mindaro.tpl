@@ -63,10 +63,12 @@ Inject the Mindaro init containers.
               add:
               - "NET_ADMIN"
           env:
-            - name: BASELINE
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: BASELINE_NAMESPACE
               value: {{ .Values.mindaro.baseline }}
-            - name: HTTP_PORTS
-              value: {{ .Values.mindaro.httpPorts | toStrings | join "," | quote }}
 {{- end -}}
 {{- end -}}
 

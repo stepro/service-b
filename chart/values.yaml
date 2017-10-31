@@ -36,16 +36,16 @@ resources: {}
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
-mindaro: # will be auto-injected based on information in mindaro.yaml and current context
-  baseline: # set for isolated namespaces that have a baseline namespace
-  clientID: STEPHPR-MAC
+mindaro: # will be auto-injected based on context and properties in mindaro.yaml
+  baseline: # is set when installing to a namespace with a baseline namespace
+  clientID: STEPHPR-MAC # is set to a client ID that globally identifies the machine
   build:
     args:
     labels:
+    target:
   entrypoint:
   command: ["dotnet", "watch", "run"]
-  httpPorts:
-  - 80
+  tcpOnlyPorts:
   syncTarget:
   keepHealthChecks: false
   terminateGracefully: false
