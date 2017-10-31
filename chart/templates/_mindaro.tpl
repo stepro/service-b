@@ -69,6 +69,8 @@ Inject the Mindaro init containers.
                   fieldPath: metadata.name
             - name: BASELINE_NAMESPACE
               value: {{ .Values.mindaro.baseline }}
+            - name: NON_HTTP_PORTS
+              value: {{ .Values.mindaro.nonHttpPorts | toStrings | join "," | quote }}
 {{- end -}}
 {{- end -}}
 

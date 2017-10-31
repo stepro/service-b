@@ -10,10 +10,10 @@ properties:
     # target: develop
   # entrypoint: # default is the default entrypoint
   command: ["dotnet", "watch", "run"] # default is the default command
-  # nonHttpPorts: # default is none, tells Envoy to not proxy defined ports
+  # nonHttpPorts: # default is none, tells Envoy to not proxy certain ports
+  # syncTarget: # default is automatically determined
   # keepHealthChecks: false # default, typically disabled for development
   # terminateGracefully: false # default, typically just kill it during development
-  # syncTarget: # default is automatically determined
   helm:
     # Which helm chart should be installed?
     chart: chart # default

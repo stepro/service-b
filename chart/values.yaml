@@ -45,7 +45,7 @@ mindaro: # will be auto-injected based on context and properties in mindaro.yaml
     target:
   entrypoint:
   command: ["dotnet", "watch", "run"]
-  tcpOnlyPorts:
+  nonHttpPorts: []
   syncTarget:
   keepHealthChecks: false
   terminateGracefully: false
