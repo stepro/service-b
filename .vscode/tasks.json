@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        // Local tasks
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/service-b.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        // Docker tasks
+        {
+            "label": "docker: build",
+            "type": "process",
+            "command": "docker",
+            "args": [
+                "build",
+                "-t",
+                "service-b",
+                "--target",
+                "develop",
+                "."
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "docker: run",
+            "dependsOn": "docker: build",
+            "type": "process",
+            "command": "docker",
+            "args": [
+                "run",
+                "--name",
+                "service-b",
+                "-p",
+                "36857:80",
+                "-it",
+                "service-b",
+                "sleep",
+                "infinity"
+            ],
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
+            "label": "docker: exec build",
+            "type": "process",
+            "command": "docker",
+            "args": [
+                "exec",
+                "service-b",
+                "dotnet",
+                "build",
+                "/src/service-b.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        // Mindaro tasks
+        {
+            "label": "mindaro: up",
+            "type": "process",
+            "command": "mindaro",
+            "args": [
+                "up"
+            ],
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
+            "label": "mindaro: exec build",
+            "type": "process",
+            "command": "mindaro",
+            "args": [
+                "exec",
+                "dotnet",
+                "build",
+                "/src/service-b.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
