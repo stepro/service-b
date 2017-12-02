@@ -3,6 +3,8 @@ properties:
   build:
     target: develop
   command: ["sleep", "infinity"]
+  imports:
+    debugger: vsdbg@microsoft/vsdbg:/vsdbg
   install:
     values:
     - .secrets.yaml
