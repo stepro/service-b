@@ -37,7 +37,7 @@
                 "--name",
                 "service-b",
                 "-p",
-                "36857:80",
+                "38574:80",
                 "-it",
                 "service-b",
                 "sleep",
@@ -65,7 +65,13 @@
             "type": "process",
             "command": "mindaro",
             "args": [
-                "up"
+                "up",
+                "-i",
+                "vsdbg@microsoft/vsdbg:/vsdbg",
+                "-p",
+                "36382:80",
+                "sleep",
+                "infinity"
             ],
             "problemMatcher": [],
             "isBackground": true

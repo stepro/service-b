@@ -66,6 +66,20 @@
             "cwd": "/src",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "http://localhost:38574",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start http://localhost:38574"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
@@ -95,6 +109,20 @@
             "cwd": "/src",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "http://localhost:36382",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start http://localhost:36382"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },

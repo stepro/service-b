@@ -1,18 +1,18 @@
-workload: helm-release
-properties:
-  build:
-    target: develop
-  command: ["sleep", "infinity"]
-  imports:
-    debugger: vsdbg@microsoft/vsdbg:/vsdbg
-  install:
-    values:
-    - .secrets.yaml
-  sync:
-    enabled: true
-  tracing: true
-  routing:
-    toMainline: true
-    toSideline: true
-  skipHealthChecks: true
-  killOnTerminate: true
+kind: helm-release
+build:
+  context: .
+container:
+  httpPorts: ["*"]
+install:
+  chart: chart
+  values:
+  - .secrets.yaml?
+  set:
+    image:
+      repository: $(repository)
+      tag: $(tag)
+      pullPolicy: Never
+configurations:
+  default:
+    build:
+      target: develop
