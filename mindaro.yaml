@@ -14,7 +14,8 @@ install:
       pullPolicy: Never
 configurations:
   default:
-    env:
-      ASPNETCORE_ENVIRONMENT: Development
-    workdir: /src
-    command: ["dotnet", "run"]
+    container:
+      env:
+        ASPNETCORE_ENVIRONMENT: Development
+      workdir: /src
+      command: ["dotnet", "run"]
