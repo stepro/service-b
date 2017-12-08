@@ -1,16 +1,16 @@
-FROM microsoft/aspnetcore-build
-RUN apt-get update \
- && apt-get install -y --no-install-recommends unzip \
- && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg \
- && rm -rf /var/lib/apt/lists/*
-
+FROM microsoft/aspnetcore:2 AS base
 EXPOSE 80
+WORKDIR /app
+
+FROM microsoft/aspnetcore-build:2 AS build
 WORKDIR /src
 COPY *.csproj .
 RUN dotnet restore
 COPY . .
 
+FROM build AS publish
 RUN dotnet publish -c Release -o /app
 
-WORKDIR /app
+FROM base AS release
+COPY --from=publish /app .
 CMD ["dotnet", "service-b.dll"]

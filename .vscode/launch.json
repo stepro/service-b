@@ -48,12 +48,16 @@
             "name": "docker: .NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "docker: exec build",
+            "preLaunchTask": "docker: build",
             "pipeTransport": {
                 "pipeCwd": "${workspaceFolder}",
                 "pipeProgram": "docker",
                 "pipeArgs": [
-                    "exec",
+                    "run",
+                    "--name",
+                    "service-b",
+                    "-p",
+                    "38574:80",
                     "-i",
                     "service-b"
                 ],
@@ -92,12 +96,13 @@
             "name": "mindaro: .NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "mindaro: exec build",
             "pipeTransport": {
                 "pipeCwd": "${workspaceFolder}",
                 "pipeProgram": "mindaro",
                 "pipeArgs": [
                     "exec",
+                    "-p",
+                    "36382:80",
                     "-i"
                 ],
                 "quoteArgs": false,
