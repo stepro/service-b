@@ -1,4 +1,4 @@
 apiVersion: v1
+description: A Helm chart for service-b
 name: service-b
-description: Helm chart for service B
 version: 0.1.0

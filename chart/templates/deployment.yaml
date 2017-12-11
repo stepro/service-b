@@ -15,15 +15,7 @@ spec:
         app: {{ template "chart.name" . }}
         release: {{ .Release.Name }}
     spec:
-      volumes:
-        # Eventually auto-injected
-        {{ template "mindaro.pod.volumes" . }}
-      initContainers:
-        # Eventually auto-injected
-        {{ template "mindaro.pod.initcontainers" . }}
       containers:
-        # Eventually auto-injected
-        {{ template "mindaro.pod.containers" . }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -40,8 +32,6 @@ spec:
                   key: {{ $key }}
             {{- end }}
             {{- end }}
-          # Eventually auto-removed
-          {{- if .Values.mindaro.keepHealthChecks }}
           livenessProbe:
             httpGet:
               path: /
@@ -50,13 +40,8 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.service.internalPort }}
-          {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-          # Eventually auto-injected
-          {{ template "mindaro.pod.container" . }}
-      # Eventually auto-injected
-      {{ template "mindaro.pod" . }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}

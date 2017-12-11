@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: stephpr/service-b
+  repository: service-b
   tag: latest
   pullPolicy: IfNotPresent
 service:
@@ -36,16 +36,3 @@ resources: {}
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
-mindaro: # will be auto-injected based on context and properties in mindaro.yaml
-  baseline: # is set when installing to a namespace with a baseline namespace
-  clientID: STEPHPR-MAC # is set to a client ID that globally identifies the machine
-  build:
-    args:
-    labels:
-    target:
-  entrypoint:
-  command: ["dotnet", "watch", "run"]
-  nonHttpPorts: []
-  syncTarget:
-  keepHealthChecks: false
-  terminateGracefully: false
