@@ -96,6 +96,7 @@
             "name": "mindaro: .NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
+            "preLaunchTask": "mindaro: up",
             "pipeTransport": {
                 "pipeCwd": "${workspaceFolder}",
                 "pipeProgram": "mindaro",
@@ -132,7 +133,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/src": "/{workspaceFolder}"
+                "/src": "/{workspaceFolder}" // may need to prompt for this
             }
         }
     ]

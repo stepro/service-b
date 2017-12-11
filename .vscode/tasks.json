@@ -57,20 +57,38 @@
         // Mindaro tasks
         {
             // This is eventually done automatically by the extension
-            "label": "mindaro: up",
+            "label": "mindaro: start",
             "type": "process",
             "command": "mindaro",
             "args": [
                 "up",
-                "-i",
-                "microsoft/vsdbg@/vsdbg:/vsdbg",
-                "--daemon"
+                "--daemon",
+                "--import",
+                "microsoft/vsdbg:<necessary version>@/vsdbg:/vsdbg",
+                "--sync",
+                "*;:*.sln:!*.*proj"
             ],
             "problemMatcher": [],
             "isBackground": true
         },
         {
+            // This instructs the daemon to ensure everything is ready
+            // Given the sync settings, it will only rebuild the
+            // image if any *.sln or *.*proj files have changed
+            "label": "mindaro: up",
+            "type": "process",
+            "command": "mindaro",
+            "args": [
+                "up",
+                "--incremental",
+                "--detach"
+            ],
+            "problemMatcher": []
+        },
+        {
+            // This is the Mindaro equivalent of the "build" task
             "label": "build (mindaro)",
+            "dependsOn": "mindaro: up",
             "type": "process",
             "command": "mindaro",
             "args": [
