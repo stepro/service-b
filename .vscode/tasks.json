@@ -66,7 +66,7 @@
                 "--import",
                 "microsoft/vsdbg:<necessary version>@/vsdbg:/vsdbg",
                 "--sync",
-                "*;:*.sln:!*.*proj"
+                "*:!*.sln:!*.*proj"
             ],
             "problemMatcher": [],
             "isBackground": true
