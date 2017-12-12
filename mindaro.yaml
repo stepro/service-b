@@ -4,7 +4,7 @@ build:
 container:
   httpPorts: ["*"]
 install:
-  chart: chart
+  chart: charts/service-b
   values:
   - .secrets.yaml?
   set:
@@ -16,3 +16,7 @@ configurations:
   develop:
     build:
       dockerfile: Dockerfile.develop
+    container:
+      sync:
+      - Views
+      - wwwroot
