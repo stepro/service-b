@@ -4,7 +4,7 @@ EXPOSE 80
 
 WORKDIR /src
 COPY service-b.csproj .
-RUN dotnet restore
+RUN dotnet restore service-b.csproj
 COPY . .
 RUN dotnet build
 
