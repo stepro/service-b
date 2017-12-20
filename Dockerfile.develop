@@ -1,15 +1,11 @@
 FROM microsoft/aspnetcore-build:2
-# This is auto-injected by Mindaro as a volume mount
-# Temporarily included to enable local Docker experience
-RUN apt-get update \
- && apt-get install -y --no-install-recommends unzip \
- && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg \
- && rm -rf /var/lib/apt/lists/*
+ENV ASPNETCORE_ENVIRONMENT=Development
+EXPOSE 80
 
 WORKDIR /src
-COPY *.csproj .
+COPY service-b.csproj .
 RUN dotnet restore
 COPY . .
 RUN dotnet build
 
-CMD ["dotnet", "run"]
+CMD ["dotnet", "run", "--no-restore", "--no-build", "--no-launch-profile"]

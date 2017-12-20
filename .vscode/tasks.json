@@ -12,87 +12,46 @@
             ],
             "problemMatcher": "$msCompile"
         },
-        // Docker tasks
-        {
-            "label": "docker: rm",
-            "type": "shell",
-            "command": "docker",
-            "osx": {
-                "args": [
-                    "rm",
-                    "-f",
-                    "service-b",
-                    "||",
-                    "echo",
-                    "-n"
-                ]
-            },
-            "windows": {
-                "args": [
-                    "rm",
-                    "-f",
-                    "service-b",
-                    "|",
-                    "echo",
-                    ".>nul"
-                ]
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "docker: build",
-            "dependsOn": "docker: rm",
-            "type": "process",
-            "command": "docker",
-            "args": [
-                "build",
-                "-f",
-                "Dockerfile.develop",
-                "-t",
-                "service-b",
-                "."
-            ],
-            "problemMatcher": []
-        },
         // Mindaro tasks
         {
             // This is eventually done automatically by the extension
-            "label": "mindaro: start",
+            // The output will appear in a "Mindaro" output window
+            "label": "mindaro: daemon",
             "type": "process",
             "command": "mindaro",
             "args": [
-                "up",
-                "--daemon",
+                "daemon",
                 "--import",
-                "microsoft/vsdbg:<necessary version>@/vsdbg:/vsdbg",
-                "--sync",
-                "*:!*.sln:!*.*proj"
+                "microsoft/vsdbg:<necessary version>@/vsdbg:/vsdbg"
             ],
             "problemMatcher": [],
             "isBackground": true
         },
         {
-            // This instructs the daemon to ensure everything is ready
-            // Given the sync settings, it will only rebuild the
-            // image if any *.sln or *.*proj files have changed
-            "label": "mindaro: up",
+            // This runs the container as a host, enabling one-off commands
+            // It will only rebuild the image if *.sln or *.*proj have changed
+            "label": "mindaro: host",
             "type": "process",
             "command": "mindaro",
             "args": [
-                "up",
-                "--incremental",
-                "--detach"
+                "up",                // implies a container-owned primary process
+                "--host",            // implies "--unchecked" to disable probes
+                "--sync",
+                "*:!*.sln:!*.*proj", // extends/overrides files to synchronize
+                "--detach"           // daemon maintains local port connectivity
             ],
             "problemMatcher": []
         },
         {
             // This is the Mindaro equivalent of the "build" task
             "label": "build (mindaro)",
-            "dependsOn": "mindaro: up",
+            "dependsOn": "mindaro: host", // ensures hosting container is running
             "type": "process",
             "command": "mindaro",
             "args": [
-                "exec",
+                "exec",            // implies a client-owned secondary process
+                "--kill",
+                "dotnet",          // runs equivalent of "pkill -9 dotnet" before execution
                 "dotnet",
                 "build",
                 "service-b.csproj"

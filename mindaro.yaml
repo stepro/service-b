@@ -16,6 +16,7 @@ configurations:
   develop:
     build:
       dockerfile: Dockerfile.develop
+      useGitIgnore: true
     container:
       sync:
       - Views
