@@ -1,5 +1,12 @@
+.dockerignore
 .git
 .gitignore
+.secrets.yaml
+.vs
+.vscode
 bin
-chart
+charts
+Dockerfile
+Dockerfile.develop
+mindaro.yaml
 obj
