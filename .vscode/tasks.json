@@ -35,6 +35,7 @@
             "command": "mindaro",
             "args": [
                 "up",                // implies a container-owned primary process
+                "--incremental",     // only synchronize files if that is all needed
                 "--host",            // implies "--unchecked" to disable probes
                 "--sync",
                 "*:!*.sln:!*.*proj", // extends/overrides files to synchronize
