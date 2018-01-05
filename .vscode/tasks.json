@@ -28,25 +28,24 @@
             "isBackground": true
         },
         {
-            // This runs the container as a host, enabling one-off commands
-            // It will only rebuild the image if *.sln or *.*proj have changed
-            "label": "mindaro: host",
+            // This runs the container as a placeholder, enabling one-off commands
+            "label": "mindaro: placeholder",
             "type": "process",
             "command": "mindaro",
             "args": [
                 "up",                // implies a container-owned primary process
-                "--incremental",     // if possible, only synchronize files
-                "--host",            // sleep forever, implies "--unchecked" option
+                "--incremental",     // only rebuild the image if unsunk files change
+                "--placeholder",     // wait for commands, implies "--no-probes" option
                 "--sync",
-                "*:!*.sln:!*.*proj", // extends/overrides files that can be synchronized
-                "--detach"           // daemon maintains local port connectivity
+                "*:!*.sln:!*.*proj", // synchronize all files except *.sln and *.*proj
+                "--detach"           // the daemon will maintain local port connectivity
             ],
             "problemMatcher": []
         },
         {
             // This is the Mindaro equivalent of the "build" task
             "label": "build (mindaro)",
-            "dependsOn": "mindaro: host", // ensures hosting container is running
+            "dependsOn": "mindaro: placeholder", // ensures placeholder container is running
             "type": "process",
             "command": "mindaro",
             "args": [
