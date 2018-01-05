@@ -35,10 +35,10 @@
             "command": "mindaro",
             "args": [
                 "up",                // implies a container-owned primary process
-                "--incremental",     // only synchronize files if that is all needed
-                "--host",            // implies "--unchecked" to disable probes
+                "--incremental",     // if possible, only synchronize files
+                "--host",            // sleep forever, implies "--unchecked" option
                 "--sync",
-                "*:!*.sln:!*.*proj", // extends/overrides files to synchronize
+                "*:!*.sln:!*.*proj", // extends/overrides files that can be synchronized
                 "--detach"           // daemon maintains local port connectivity
             ],
             "problemMatcher": []
