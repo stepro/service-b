@@ -28,16 +28,16 @@
             "isBackground": true
         },
         {
-            // This runs the container as a placeholder, enabling one-off commands
-            "label": "mindaro: placeholder",
+            // This ensure the container is ready to execute commands
+            "label": "mindaro: ready",
             "type": "process",
             "command": "mindaro",
             "args": [
                 "up",                // implies a container-owned primary process
                 "--incremental",     // only rebuild the image if unsunk files change
-                "--placeholder",     // wait for commands, implies "--no-probes" option
+                "--no-command",      // don't run startup command, implies "--no-probe" option
                 "--sync",
-                "*:!*.sln:!*.*proj", // synchronize all files except *.sln and *.*proj
+                "**/*.cs",           // build is in container, so synchronize source files
                 "--detach"           // the daemon will maintain local port connectivity
             ],
             "problemMatcher": []
@@ -45,7 +45,7 @@
         {
             // This is the Mindaro equivalent of the "build" task
             "label": "build (mindaro)",
-            "dependsOn": "mindaro: placeholder", // ensures placeholder container is running
+            "dependsOn": "mindaro: ready", // ensures container is ready to execute commands
             "type": "process",
             "command": "mindaro",
             "args": [
