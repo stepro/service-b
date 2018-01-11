@@ -28,7 +28,7 @@
             "isBackground": true
         },
         {
-            // This ensure the container is ready to execute commands
+            // This ensures the container is ready to execute commands
             "label": "mindaro: ready",
             "type": "process",
             "command": "mindaro",
@@ -37,7 +37,7 @@
                 "--incremental",     // only rebuild the image if unsunk files change
                 "--no-command",      // don't run startup command, implies "--no-probe" option
                 "--sync",
-                "**/*.cs",           // build is in container, so synchronize source files
+                "**/*.cs",           // we build in the container, so synchronize source files
                 "--detach"           // the daemon will maintain local port connectivity
             ],
             "problemMatcher": []
