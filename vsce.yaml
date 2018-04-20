@@ -9,8 +9,14 @@ install:
     image:
       tag: $(tag)
       pullPolicy: Never
+    # This ingress section specifies whether VSCE should expose
+    # an endpoint like http://service-b.<guid>.<region>.aksapp.io
     # ingress:
     #   enabled: true
+    #   hosts:
+    #   - $(spacePrefix)service-b$(domainSuffix)
+    #   annotations:
+    #     kubernetes.io/ingress.class: addon-http-application-routing
 configurations:
   develop:
     build:
