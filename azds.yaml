@@ -1,20 +1,25 @@
-kind: helm-release
 apiVersion: 1.0
+kind: helm-release
 build:
   context: .
   dockerfile: Dockerfile
 install:
   chart: charts/service-b
+  values:
+  - values.dev.yaml?
+  - secrets.dev.yaml?
   set:
     image:
       tag: $(tag)
       pullPolicy: Never
-    # This ingress section specifies whether VSCE should expose
+    # This ingress section specifies whether AZDS should expose
     # an endpoint like http://service-b.<guid>.<region>.aksapp.io
+    # or http://<space>.s.service-b.<guid>.<region>.aksapp.io when
+    # working in a specific dev space.
     # ingress:
     #   enabled: true
     #   hosts:
-    #   - $(spacePrefix)service-b$(domainSuffix)
+    #   - $(spacePrefix)service-b$(hostSuffix)
     #   annotations:
     #     kubernetes.io/ingress.class: addon-http-application-routing
 configurations:
@@ -23,14 +28,14 @@ configurations:
       dockerfile: Dockerfile.develop
       useGitIgnore: true
     container:
-      syncTarget: /src
       sync:
       - "**/Pages/**"
       - "**/Views/**"
       - "**/wwwroot/**"
       - "!**/*.{sln,csproj}"
-      command:  [dotnet, run, --no-restore, --no-build, --no-launch-profile, -c, "${Configuration:-Debug}"]
-      iterate:
+      syncTarget: /src
+      refresh:
         processesToKill: [dotnet]
         buildCommands:
         - [dotnet, build, --no-restore, -c, "${Configuration:-Debug}"]
+      command:  [dotnet, run, --no-restore, --no-build, --no-launch-profile, -c, "${Configuration:-Debug}", "--"]

@@ -11,4 +11,4 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/vsce.yaml
+**/azds.yaml
