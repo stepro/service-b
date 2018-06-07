@@ -8,9 +8,10 @@
             "command": "azds",
             "args": [
                 "up",
-                "--client",
-                "vscode",
-                "--await-exec"
+                "--client=vscode",
+                "--import=microsoft/vsdbg:15.1@/vsdbg:/vsdbg",
+                "--await-exec",
+                "--keep-alive"
             ],
             "options": {
                 "cwd": "${workspaceRoot}"

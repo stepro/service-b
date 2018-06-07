@@ -4,6 +4,7 @@
 .vs
 .vscode
 **/*.*proj.user
+**/azds.yaml
 **/bin
 **/charts
 **/Dockerfile
@@ -11,4 +12,3 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/azds.yaml

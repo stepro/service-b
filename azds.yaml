@@ -1,5 +1,5 @@
-apiVersion: 1.0
 kind: helm-release
+apiVersion: 1.0
 build:
   context: .
   dockerfile: Dockerfile
@@ -12,30 +12,23 @@ install:
     image:
       tag: $(tag)
       pullPolicy: Never
-    # This ingress section specifies whether AZDS should expose
-    # an endpoint like http://service-b.<guid>.<region>.aksapp.io
-    # or http://<space>.s.service-b.<guid>.<region>.aksapp.io when
-    # working in a specific dev space.
-    # ingress:
-    #   enabled: true
-    #   hosts:
-    #   - $(spacePrefix)service-b$(hostSuffix)
-    #   annotations:
-    #     kubernetes.io/ingress.class: addon-http-application-routing
+    ingress:
+      hosts:
+        # This expands to [<space>.s.]service-a.<guid>.<region>.aksapp.io
+        - $(spacePrefix)service-a$(hostSuffix)
 configurations:
   develop:
     build:
-      dockerfile: Dockerfile.develop
       useGitIgnore: true
+      dockerfile: Dockerfile.develop
     container:
+      command:  [dotnet, run, -c, "${Configuration:-Debug}", --no-restore, --no-build, --no-launch-profile, "--"]
       sync:
       - "**/Pages/**"
       - "**/Views/**"
       - "**/wwwroot/**"
       - "!**/*.{sln,csproj}"
-      syncTarget: /src
       refresh:
-        processesToKill: [dotnet]
+        processesToKill: [dotnet, vsdbg]
         buildCommands:
-        - [dotnet, build, --no-restore, -c, "${Configuration:-Debug}"]
-      command:  [dotnet, run, --no-restore, --no-build, --no-launch-profile, -c, "${Configuration:-Debug}", "--"]
+        - [dotnet, build, -c, "${Configuration:-Debug}", --no-restore]

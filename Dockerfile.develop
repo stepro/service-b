@@ -1,12 +1,11 @@
 FROM microsoft/aspnetcore-build:2.0
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
-
 EXPOSE 80
 
 WORKDIR /src
 COPY service-b.csproj .
-RUN dotnet restore -nowarn:msb3202,nu1503
+RUN dotnet restore service-b.csproj
 COPY . .
 RUN dotnet build --no-restore
 
