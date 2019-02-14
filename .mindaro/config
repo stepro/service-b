@@ -1,0 +1,4 @@
+environments:
+  dev: github.com/stepro/demo-app/dev.yaml
+  local: github.com/stepro/mindaro/environments/local.yaml
+  prod: github.com/stepro/demo-app/prod.yaml

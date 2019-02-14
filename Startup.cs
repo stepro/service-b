@@ -1,8 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ServiceB
 {
@@ -22,7 +18,7 @@ namespace ServiceB
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async context =>
+            app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello from service B container " + Environment.MachineName + Environment.NewLine);
             });
