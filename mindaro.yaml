@@ -1,0 +1,6 @@
+dependencies:
+  mymongo: mongo
+environment:
+  MONGO_CONNECTION_STRING: $(mymongo.connectionString)
+release:
+  type: container
