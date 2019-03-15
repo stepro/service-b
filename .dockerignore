@@ -1,7 +1,8 @@
 .dockerignore
 .git
 .gitignore
-.mindaro
+.como
 bin
+como.yaml
 Dockerfile
 obj

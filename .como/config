@@ -1,2 +1,0 @@
-environments:
-  local: github.com/stepro/como/environments/local.yaml
