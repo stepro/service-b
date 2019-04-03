@@ -1,2 +1,2 @@
 environments:
-  local: github.com/stepro/como/environments/local.yaml
+  local: github.com/Microsoft/como/environments/local
